@@ -1,0 +1,62 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            INSERT INTO polymarket.verification_audit_log (\n                user_id, admin_id, action, previous_status, new_status, notes, metadata, created_at\n            ) VALUES (\n                $1, $2, $3, $4, $5, $6, $7, NOW()\n            )\n            ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        {
+          "Custom": {
+            "name": "polymarket.admin_verification_action",
+            "kind": {
+              "Enum": [
+                "approved",
+                "rejected",
+                "requested_revision",
+                "suspended",
+                "expired",
+                "notes_added"
+              ]
+            }
+          }
+        },
+        {
+          "Custom": {
+            "name": "polymarket.verification_status",
+            "kind": {
+              "Enum": [
+                "unverified",
+                "pending",
+                "approved",
+                "rejected",
+                "expired",
+                "suspended"
+              ]
+            }
+          }
+        },
+        {
+          "Custom": {
+            "name": "polymarket.verification_status",
+            "kind": {
+              "Enum": [
+                "unverified",
+                "pending",
+                "approved",
+                "rejected",
+                "expired",
+                "suspended"
+              ]
+            }
+          }
+        },
+        "Text",
+        "Jsonb"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "6e4ca93d5edb09cd384c49d7d9ede733d7593ce9468faf4a991fa7b805d66686"
+}

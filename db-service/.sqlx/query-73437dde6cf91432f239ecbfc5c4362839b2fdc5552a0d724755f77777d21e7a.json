@@ -1,0 +1,45 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n    UPDATE polymarket.users \n    SET verification_status = $1::polymarket.verification_status,\n        verification_step = $2::polymarket.verification_step,\n        verification_notes = CASE \n            WHEN verification_notes IS NULL THEN $3\n            ELSE verification_notes || '; ' || $3\n        END,\n        updated_at = CURRENT_TIMESTAMP\n    WHERE id = $4\n    ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        {
+          "Custom": {
+            "name": "polymarket.verification_status",
+            "kind": {
+              "Enum": [
+                "unverified",
+                "pending",
+                "approved",
+                "rejected",
+                "expired",
+                "suspended"
+              ]
+            }
+          }
+        },
+        {
+          "Custom": {
+            "name": "polymarket.verification_step",
+            "kind": {
+              "Enum": [
+                "identity_basic",
+                "document_upload",
+                "liveness_check",
+                "address_verification",
+                "risk_assessment",
+                "completed"
+              ]
+            }
+          }
+        },
+        "Text",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "73437dde6cf91432f239ecbfc5c4362839b2fdc5552a0d724755f77777d21e7a"
+}

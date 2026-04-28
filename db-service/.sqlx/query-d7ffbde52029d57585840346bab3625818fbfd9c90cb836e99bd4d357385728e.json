@@ -1,0 +1,176 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n          SELECT \n                id, google_id, firebase_id, email, name, avatar, last_login, verified,\n                verification_status as \"verification_status: VerificationStatus\",\n                verification_step as \"verification_step: VerificationStep\",\n                verification_applied_at,\n                verification_reviewed_at,\n                verified_at,\n                verification_expires_at,\n                verification_notes,\n                public_key,\n                private_key,\n                created_at,\n                updated_at,\n                balance,\n                referral_code,\n                referred_by\n            FROM \"polymarket\".\"users\" \n            WHERE firebase_id = $1\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "google_id",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 2,
+        "name": "firebase_id",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 3,
+        "name": "email",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 4,
+        "name": "name",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 5,
+        "name": "avatar",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 6,
+        "name": "last_login",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 7,
+        "name": "verified",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 8,
+        "name": "verification_status: VerificationStatus",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.verification_status",
+            "kind": {
+              "Enum": [
+                "unverified",
+                "pending",
+                "approved",
+                "rejected",
+                "expired",
+                "suspended"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 9,
+        "name": "verification_step: VerificationStep",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.verification_step",
+            "kind": {
+              "Enum": [
+                "identity_basic",
+                "document_upload",
+                "liveness_check",
+                "address_verification",
+                "risk_assessment",
+                "completed"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 10,
+        "name": "verification_applied_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 11,
+        "name": "verification_reviewed_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 12,
+        "name": "verified_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 13,
+        "name": "verification_expires_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 14,
+        "name": "verification_notes",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 15,
+        "name": "public_key",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 16,
+        "name": "private_key",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 17,
+        "name": "created_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 18,
+        "name": "updated_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 19,
+        "name": "balance",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 20,
+        "name": "referral_code",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 21,
+        "name": "referred_by",
+        "type_info": "Uuid"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Text"
+      ]
+    },
+    "nullable": [
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true
+    ]
+  },
+  "hash": "d7ffbde52029d57585840346bab3625818fbfd9c90cb836e99bd4d357385728e"
+}

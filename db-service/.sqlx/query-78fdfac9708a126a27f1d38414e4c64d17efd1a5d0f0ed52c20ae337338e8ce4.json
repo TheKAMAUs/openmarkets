@@ -1,0 +1,14 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            UPDATE polymarket.discussions \n            SET upvotes = upvotes + 1\n            WHERE id = $1\n            ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "78fdfac9708a126a27f1d38414e4c64d17efd1a5d0f0ed52c20ae337338e8ce4"
+}

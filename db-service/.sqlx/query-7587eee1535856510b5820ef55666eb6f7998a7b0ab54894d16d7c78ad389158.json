@@ -1,0 +1,22 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT SUM(quantity) FROM polymarket.orders \n                WHERE user_id = $1 \n                AND side = 'buy'::polymarket.order_side\n                AND status = 'open'::polymarket.order_status\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "sum",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "7587eee1535856510b5820ef55666eb6f7998a7b0ab54894d16d7c78ad389158"
+}

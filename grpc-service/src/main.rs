@@ -1,0 +1,67 @@
+use std::sync::Arc;
+
+use grpc_service::{
+    generated::{
+        markets::market_service_server::MarketServiceServer,
+        price::price_service_server::PriceServiceServer,
+    },
+    procedures::{market_services::MarketServiceStub, price_services::PriceServiceStub},
+    state::AppState,
+};
+use tonic::transport::Server;
+use tonic_web::GrpcWebLayer;
+use tower_http::cors::CorsLayer;
+use utility_helpers::log_info;
+
+
+const FILE_DESCRIPTOR_SET: &[u8] = include_bytes!("generated/descriptor.bin");
+
+#[tokio::main(flavor = "multi_thread")]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // logging
+    tracing_subscriber::fmt()
+        .with_max_level(tracing::Level::INFO)
+        .init();
+
+    // ✅ TLS INIT GOES HERE (VERY IMPORTANT)
+  
+
+    let reflector_service = tonic_reflection::server::Builder::configure()
+        .register_encoded_file_descriptor_set(FILE_DESCRIPTOR_SET)
+        .include_reflection_service(true)
+        .build_v1alpha()?;
+
+    let app_state = AppState::new().await?;
+    let state = Arc::new(app_state);
+
+    let market_service_layer = MarketServiceStub {
+        state: state.clone(),
+    };
+
+    let pair_service_layer = PriceServiceStub {
+        state: state.clone(),
+    };
+
+    let port = std::env::var("PORT").unwrap_or_else(|_| "5010".to_string());
+
+    let addr: std::net::SocketAddr =
+        format!("0.0.0.0:{}", port).parse()?;
+
+    log_info!("🚀 gRPC-Web server running on https://{addr}");
+
+    Server::builder()
+        .accept_http1(true)
+        .layer(CorsLayer::permissive())
+        .layer(GrpcWebLayer::new())
+        .add_service(reflector_service)
+        .add_service(MarketServiceServer::new(market_service_layer))
+        .add_service(PriceServiceServer::new(pair_service_layer))
+        .serve(addr)
+        .await?;
+
+    Ok(())
+}
+
+
+
+

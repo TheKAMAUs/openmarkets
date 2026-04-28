@@ -1,0 +1,36 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT verification_status as \"verification_status: VerificationStatus\" \n            FROM polymarket.users \n            WHERE id = $1\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "verification_status: VerificationStatus",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.verification_status",
+            "kind": {
+              "Enum": [
+                "unverified",
+                "pending",
+                "approved",
+                "rejected",
+                "expired",
+                "suspended"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "30e43d3a4c07086e5ee6d558e1863fb0c8461724d85c9f161a32247e365dc774"
+}

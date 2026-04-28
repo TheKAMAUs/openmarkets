@@ -1,0 +1,242 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            WITH \n            holdings AS (\n                SELECT \n                    uh.market_id,\n                    uh.outcome,\n                    uh.shares\n                FROM polymarket.user_holdings uh\n                WHERE uh.user_id = $1\n            ),\n\n            orders AS (\n                SELECT \n                    COUNT(*) FILTER (WHERE status = 'open') AS open_orders,\n                    COUNT(*) FILTER (WHERE status = 'partial_fill') AS partial_orders,\n                    COUNT(*) AS total_orders,\n                    AVG(filled_quantity / NULLIF(quantity, 0)) AS avg_fill_ratio\n                FROM polymarket.orders\n                WHERE user_id = $1\n            ),\n\n            trades AS (\n                SELECT \n                    COUNT(*) AS total_trades,\n                    SUM(quantity) AS total_volume,\n                    AVG(price) AS avg_trade_price,\n                    MAX(quantity) AS max_trade_qty,\n                    MIN(created_at) AS first_trade_at,\n                    MAX(created_at) AS last_trade_at,\n                    COUNT(DISTINCT market_id) AS markets_traded\n                FROM polymarket.user_trades\n                WHERE user_id = $1\n            ),\n\n            txns AS (\n                SELECT\n                    SUM(amount) FILTER (WHERE transaction_type = 'deposit') AS total_deposit,\n                    SUM(amount) FILTER (WHERE transaction_type = 'withdrawal') AS total_withdraw,\n                    MAX(created_at) FILTER (WHERE transaction_type = 'deposit') AS last_deposit,\n                    MAX(created_at) FILTER (WHERE transaction_type = 'withdrawal') AS last_withdraw\n                FROM polymarket.user_transactions\n                WHERE user_id = $1\n            )\n\n         SELECT\n    u.id,\n    u.name,\n    u.email,\n    u.avatar,\n    u.public_key,\n    u.balance,\n    u.last_login,\n    u.created_at,\n    u.verified,\n\n    -- ✅ ADD THESE\n    u.referral_code,\n    u.referred_by,\n\n                -- Verification fields with type annotations (just like order_status pattern)\n                u.verification_status as \"verification_status: VerificationStatus\",\n                u.verification_step as \"verification_step: VerificationStep\",\n                u.verification_applied_at,\n                u.verification_reviewed_at,\n                u.verified_at,\n                u.verification_expires_at,\n                u.verification_notes,\n                \n                 -- Orders\n                         o.open_orders,\n                        o.partial_orders,\n                        o.total_orders,\n                        o.avg_fill_ratio,\n\n                -- Trades\n                COALESCE(t.total_trades, 0) as \"total_trades: i64\",\n                t.total_volume,\n                t.avg_trade_price,\n                t.max_trade_qty,\n                t.first_trade_at,\n                t.last_trade_at,\n                COALESCE(t.markets_traded, 0) as \"markets_traded: i64\",\n\n                -- Txns\n                x.total_deposit,\n                x.total_withdraw,\n                x.last_deposit,\n                x.last_withdraw\n\n            FROM polymarket.users u\n            LEFT JOIN orders o ON true\n            LEFT JOIN trades t ON true\n            LEFT JOIN txns x ON true\n            WHERE u.id = $1;\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 2,
+        "name": "email",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 3,
+        "name": "avatar",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 4,
+        "name": "public_key",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 5,
+        "name": "balance",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 6,
+        "name": "last_login",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 7,
+        "name": "created_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 8,
+        "name": "verified",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 9,
+        "name": "referral_code",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 10,
+        "name": "referred_by",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 11,
+        "name": "verification_status: VerificationStatus",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.verification_status",
+            "kind": {
+              "Enum": [
+                "unverified",
+                "pending",
+                "approved",
+                "rejected",
+                "expired",
+                "suspended"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 12,
+        "name": "verification_step: VerificationStep",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.verification_step",
+            "kind": {
+              "Enum": [
+                "identity_basic",
+                "document_upload",
+                "liveness_check",
+                "address_verification",
+                "risk_assessment",
+                "completed"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 13,
+        "name": "verification_applied_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 14,
+        "name": "verification_reviewed_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 15,
+        "name": "verified_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 16,
+        "name": "verification_expires_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 17,
+        "name": "verification_notes",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 18,
+        "name": "open_orders",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 19,
+        "name": "partial_orders",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 20,
+        "name": "total_orders",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 21,
+        "name": "avg_fill_ratio",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 22,
+        "name": "total_trades: i64",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 23,
+        "name": "total_volume",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 24,
+        "name": "avg_trade_price",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 25,
+        "name": "max_trade_qty",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 26,
+        "name": "first_trade_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 27,
+        "name": "last_trade_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 28,
+        "name": "markets_traded: i64",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 29,
+        "name": "total_deposit",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 30,
+        "name": "total_withdraw",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 31,
+        "name": "last_deposit",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 32,
+        "name": "last_withdraw",
+        "type_info": "Timestamp"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "d93af448e5a9d004fcf1e8df46589fdb24b77a638f351988172a622078c905ae"
+}

@@ -1,0 +1,30 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            UPDATE polymarket.users\n            SET \n                verification_status = $1,\n                verified = true,\n                verification_notes = CONCAT(verification_notes, E'\\nReinstated: ', COALESCE($2, '')),\n                updated_at = NOW()\n            WHERE id = $3\n            ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        {
+          "Custom": {
+            "name": "polymarket.verification_status",
+            "kind": {
+              "Enum": [
+                "unverified",
+                "pending",
+                "approved",
+                "rejected",
+                "expired",
+                "suspended"
+              ]
+            }
+          }
+        },
+        "Text",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "bb985dd092c24cf4449bfb7a50e4fbf8730d189327eae2164a897e0eb2c16c0a"
+}

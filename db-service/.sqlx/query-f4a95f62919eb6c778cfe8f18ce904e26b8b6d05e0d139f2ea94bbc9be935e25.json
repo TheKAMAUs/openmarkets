@@ -1,0 +1,144 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT \n            id,\n            name,\n            description,\n            logo,\n            status as \"status: MarketStatus\",\n            final_outcome as \"final_outcome: Outcome\",\n            liquidity_b,\n            market_expiry,\n            created_at,\n            updated_at,\n            parent_id,\n            is_event,\n            child_market_ids,\n            category,\n            resolution_criteria,\n            slug,\n            q_yes,\n            q_no\n        FROM \"polymarket\".\"markets\"\n        WHERE name ILIKE '%BTCUSDT%'\n          AND updated_at >= NOW() - INTERVAL '30 minutes'\n        ORDER BY updated_at DESC\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "name",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 2,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "logo",
+        "type_info": "TextArray"
+      },
+      {
+        "ordinal": 4,
+        "name": "status: MarketStatus",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.market_status",
+            "kind": {
+              "Enum": [
+                "open",
+                "closed",
+                "settled"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 5,
+        "name": "final_outcome: Outcome",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.outcome",
+            "kind": {
+              "Enum": [
+                "yes",
+                "no",
+                "unspecified"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 6,
+        "name": "liquidity_b",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 7,
+        "name": "market_expiry",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 8,
+        "name": "created_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 9,
+        "name": "updated_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 10,
+        "name": "parent_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 11,
+        "name": "is_event",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 12,
+        "name": "child_market_ids",
+        "type_info": "UuidArray"
+      },
+      {
+        "ordinal": 13,
+        "name": "category",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 14,
+        "name": "resolution_criteria",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 15,
+        "name": "slug",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 16,
+        "name": "q_yes",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 17,
+        "name": "q_no",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false
+    ]
+  },
+  "hash": "f4a95f62919eb6c778cfe8f18ce904e26b8b6d05e0d139f2ea94bbc9be935e25"
+}
