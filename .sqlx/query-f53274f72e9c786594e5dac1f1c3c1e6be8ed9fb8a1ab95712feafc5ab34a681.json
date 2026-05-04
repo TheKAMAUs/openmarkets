@@ -1,0 +1,64 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n    SELECT\n        COALESCE(SUM(\n            CASE \n                WHEN outcome = 'yes' AND side = 'buy'\n                THEN (quantity / NULLIF(price, 0))\n                ELSE 0\n            END\n        ), 0)::numeric AS yes_buy_qty,\n\n        COALESCE(SUM(\n            CASE \n                WHEN outcome = 'yes' AND side = 'buy'\n                THEN quantity\n                ELSE 0\n            END\n        ), 0)::numeric AS yes_buy_usd,\n\n        COALESCE(SUM(\n            CASE \n                WHEN outcome = 'yes' AND side = 'sell'\n                THEN (quantity / NULLIF(price, 0))\n                ELSE 0\n            END\n        ), 0)::numeric AS yes_sell_qty,\n\n        COALESCE(SUM(\n            CASE \n                WHEN outcome = 'yes' AND side = 'sell'\n                THEN quantity\n                ELSE 0\n            END\n        ), 0)::numeric AS yes_sell_usd,\n\n        COALESCE(SUM(\n            CASE \n                WHEN outcome = 'no' AND side = 'buy'\n                THEN (quantity / NULLIF(price, 0))\n                ELSE 0\n            END\n        ), 0)::numeric AS no_buy_qty,\n\n        COALESCE(SUM(\n            CASE \n                WHEN outcome = 'no' AND side = 'buy'\n                THEN quantity\n                ELSE 0\n            END\n        ), 0)::numeric AS no_buy_usd,\n\n        COALESCE(SUM(\n            CASE \n                WHEN outcome = 'no' AND side = 'sell'\n                THEN (quantity / NULLIF(price, 0))\n                ELSE 0\n            END\n        ), 0)::numeric AS no_sell_qty,\n\n        COALESCE(SUM(\n            CASE \n                WHEN outcome = 'no' AND side = 'sell'\n                THEN quantity\n                ELSE 0\n            END\n        ), 0)::numeric AS no_sell_usd\n\n    FROM polymarket.orders\n    WHERE market_id = $1\n      AND status = 'filled'::polymarket.order_status\n    ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "yes_buy_qty",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 1,
+        "name": "yes_buy_usd",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 2,
+        "name": "yes_sell_qty",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 3,
+        "name": "yes_sell_usd",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 4,
+        "name": "no_buy_qty",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 5,
+        "name": "no_buy_usd",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 6,
+        "name": "no_sell_qty",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 7,
+        "name": "no_sell_usd",
+        "type_info": "Numeric"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      null
+    ]
+  },
+  "hash": "f53274f72e9c786594e5dac1f1c3c1e6be8ed9fb8a1ab95712feafc5ab34a681"
+}

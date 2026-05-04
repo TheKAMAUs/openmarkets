@@ -1,0 +1,70 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "    \n        SELECT \n            d.id,\n            d.market_id,\n            u.id as user_id,\n            u.name as user_name,\n            u.avatar as user_avatar,\n            d.content,\n            d.upvotes,\n            (SELECT COUNT(*) FROM polymarket.discussions WHERE parent_id = d.id) as \"reply_count?: i64\",  -- ✅ Add ? to make it Option\n            d.created_at\n        FROM polymarket.discussions d\n        JOIN polymarket.users u ON u.id = d.user_id\n        WHERE d.market_id = $1\n        ORDER BY \n            CASE WHEN d.parent_id IS NULL THEN 0 ELSE 1 END,\n            d.created_at DESC\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "market_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "user_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 3,
+        "name": "user_name",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 4,
+        "name": "user_avatar",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 5,
+        "name": "content",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "upvotes",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 7,
+        "name": "reply_count?: i64",
+        "type_info": "Int8"
+      },
+      {
+        "ordinal": 8,
+        "name": "created_at",
+        "type_info": "Timestamp"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      null,
+      false
+    ]
+  },
+  "hash": "d725627569e90f26dd25511f2423a1020b1de42efee9869bf0d1e080e2ec6599"
+}

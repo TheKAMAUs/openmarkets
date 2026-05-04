@@ -1,0 +1,64 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT *\n        FROM polymarket.market_state_history\n        WHERE market_id = $1\n        ORDER BY created_at DESC\n        LIMIT 1\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "market_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "q_yes",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 3,
+        "name": "q_no",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 4,
+        "name": "liquidity_b",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 5,
+        "name": "price_yes",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 6,
+        "name": "price_no",
+        "type_info": "Numeric"
+      },
+      {
+        "ordinal": 7,
+        "name": "created_at",
+        "type_info": "Timestamp"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false
+    ]
+  },
+  "hash": "f190500703e89427df2d0282f7cb3481e2ddf82084049ec4e8870d60b3123885"
+}

@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n                    UPDATE polymarket.markets\n                    SET resolution_criteria = $1\n                    WHERE id = $2\n                    ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Text",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "b68047b7f080cb8e39440e5f957c573f3758251c5d760c8e681fc563f64e2a7e"
+}

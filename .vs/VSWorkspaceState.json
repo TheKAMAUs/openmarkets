@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\db-service",
+    "\\db-service\\src",
+    "\\db-service\\src\\schema",
+    "\\db-service\\src\\schema\\enums",
+    "\\order-service",
+    "\\order-service\\src",
+    "\\order-service\\src\\order_book"
+  ],
+  "SelectedNode": "\\db-service\\src\\schema\\orders.rs",
+  "PreviewInSolutionExplorer": false
+}

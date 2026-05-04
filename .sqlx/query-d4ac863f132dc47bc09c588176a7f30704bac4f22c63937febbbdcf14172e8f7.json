@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            UPDATE \"polymarket\".\"users\"\n            SET balance = balance + $1\n            WHERE id = $2\n            ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Numeric",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "d4ac863f132dc47bc09c588176a7f30704bac4f22c63937febbbdcf14172e8f7"
+}

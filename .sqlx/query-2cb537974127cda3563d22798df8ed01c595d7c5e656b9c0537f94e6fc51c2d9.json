@@ -1,0 +1,26 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        UPDATE polymarket.markets\n        SET status = 'settled'::polymarket.market_status,\n            final_outcome = $2::polymarket.outcome,\n            updated_at = NOW()\n        WHERE id = $1\n        ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        {
+          "Custom": {
+            "name": "polymarket.outcome",
+            "kind": {
+              "Enum": [
+                "yes",
+                "no",
+                "unspecified"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "2cb537974127cda3563d22798df8ed01c595d7c5e656b9c0537f94e6fc51c2d9"
+}

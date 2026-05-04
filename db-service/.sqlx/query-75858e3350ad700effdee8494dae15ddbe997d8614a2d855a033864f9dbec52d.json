@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n    UPDATE polymarket.markets\n    SET child_market_ids = $1\n    WHERE id = $2\n    ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "UuidArray",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "75858e3350ad700effdee8494dae15ddbe997d8614a2d855a033864f9dbec52d"
+}

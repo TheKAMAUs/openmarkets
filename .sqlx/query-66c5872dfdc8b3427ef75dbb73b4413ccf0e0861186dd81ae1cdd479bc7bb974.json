@@ -1,0 +1,79 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        INSERT INTO polymarket.market_suggestions (\n            user_id, title, description, category, created_at, updated_at\n        )\n        VALUES ($1, $2, $3, $4, NOW(), NOW())\n        RETURNING \n            id, user_id, title, description, category, upvotes,\n            status as \"status: SuggestionStatus\",  -- ✅ Cast to enum\n            admin_notes, created_at, updated_at\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "user_id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 2,
+        "name": "title",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 3,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 4,
+        "name": "category",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 5,
+        "name": "upvotes",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 6,
+        "name": "status: SuggestionStatus",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 7,
+        "name": "admin_notes",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 8,
+        "name": "created_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 9,
+        "name": "updated_at",
+        "type_info": "Timestamp"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Varchar",
+        "Text",
+        "Varchar"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      true,
+      false,
+      false
+    ]
+  },
+  "hash": "66c5872dfdc8b3427ef75dbb73b4413ccf0e0861186dd81ae1cdd479bc7bb974"
+}

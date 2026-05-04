@@ -1,0 +1,88 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT \n            s.id,\n            s.title,\n            s.description,\n            s.category,\n            s.upvotes,\n            s.status as \"status: SuggestionStatus\",  -- ✅ Cast to enum\n            s.admin_notes,\n            s.created_at,\n            s.updated_at,\n            u.name as user_name,\n            u.avatar as user_avatar,\n            EXISTS(\n                SELECT 1 FROM polymarket.suggestion_votes sv \n                WHERE sv.suggestion_id = s.id AND sv.user_id = $1\n            ) as \"user_voted!\"\n        FROM polymarket.market_suggestions s\n        JOIN polymarket.users u ON u.id = s.user_id\n        ORDER BY \n            CASE WHEN s.status::text = 'pending' THEN 0 ELSE 1 END,  -- ✅ Compare as text\n            s.upvotes DESC,\n            s.created_at DESC\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "title",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 2,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "category",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 4,
+        "name": "upvotes",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 5,
+        "name": "status: SuggestionStatus",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 6,
+        "name": "admin_notes",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 7,
+        "name": "created_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 8,
+        "name": "updated_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 9,
+        "name": "user_name",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 10,
+        "name": "user_avatar",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 11,
+        "name": "user_voted!",
+        "type_info": "Bool"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      true,
+      false,
+      false,
+      true,
+      false,
+      false,
+      false,
+      true,
+      null
+    ]
+  },
+  "hash": "05638c6734ce0b2554b72bab40ae27390734dfdb06a273ec6cf26b540a8042b5"
+}

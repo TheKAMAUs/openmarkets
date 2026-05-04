@@ -1,0 +1,77 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            SELECT \n                id,\n                document_type as \"document_type: VerificationDocumentType\",\n                document_url as url,\n                status as \"status: VerificationDocumentStatus\",\n                uploaded_at,\n                rejection_reason\n            FROM polymarket.user_verification_documents\n            WHERE user_id = $1\n            ORDER BY uploaded_at DESC\n            ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Uuid"
+      },
+      {
+        "ordinal": 1,
+        "name": "document_type: VerificationDocumentType",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.verification_document_type",
+            "kind": {
+              "Enum": [
+                "passport",
+                "drivers_license",
+                "national_id",
+                "selfieresidence_permit",
+                "proof_of_address"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 2,
+        "name": "url",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "status: VerificationDocumentStatus",
+        "type_info": {
+          "Custom": {
+            "name": "polymarket.verification_document_status",
+            "kind": {
+              "Enum": [
+                "pending",
+                "approved",
+                "rejected",
+                "expired"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "ordinal": 4,
+        "name": "uploaded_at",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 5,
+        "name": "rejection_reason",
+        "type_info": "Text"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Uuid"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      false,
+      false,
+      false,
+      true
+    ]
+  },
+  "hash": "399395741281da4d0220db51f9a22ebeb22fcf789a6109c5d6bb42a586c04c96"
+}

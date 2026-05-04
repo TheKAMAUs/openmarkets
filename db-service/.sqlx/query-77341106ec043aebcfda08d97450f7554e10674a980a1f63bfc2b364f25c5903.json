@@ -1,0 +1,20 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        SELECT COUNT(*) as \"total!: i64\"\n        FROM polymarket.users\n        WHERE verification_status = 'pending'::polymarket.verification_status\n        ",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "total!: i64",
+        "type_info": "Int8"
+      }
+    ],
+    "parameters": {
+      "Left": []
+    },
+    "nullable": [
+      null
+    ]
+  },
+  "hash": "77341106ec043aebcfda08d97450f7554e10674a980a1f63bfc2b364f25c5903"
+}

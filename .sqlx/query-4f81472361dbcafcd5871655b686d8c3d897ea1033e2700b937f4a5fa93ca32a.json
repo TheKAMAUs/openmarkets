@@ -1,0 +1,15 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            INSERT INTO polymarket.suggestion_votes (suggestion_id, user_id)\n            VALUES ($1, $2)\n            ON CONFLICT DO NOTHING\n            ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "4f81472361dbcafcd5871655b686d8c3d897ea1033e2700b937f4a5fa93ca32a"
+}

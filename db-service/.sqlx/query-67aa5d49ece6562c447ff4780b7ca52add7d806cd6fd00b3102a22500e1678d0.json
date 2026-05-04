@@ -1,0 +1,43 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n                UPDATE polymarket.user_verification_documents\n                SET \n                    status = $1,\n                    rejection_reason = $2,\n                    reviewed_at = NOW(),\n                    reviewed_by = $3,\n                    updated_at = NOW()\n                WHERE user_id = $4 \n                AND document_type = $5\n                ",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        {
+          "Custom": {
+            "name": "polymarket.verification_document_status",
+            "kind": {
+              "Enum": [
+                "pending",
+                "approved",
+                "rejected",
+                "expired"
+              ]
+            }
+          }
+        },
+        "Text",
+        "Uuid",
+        "Uuid",
+        {
+          "Custom": {
+            "name": "polymarket.verification_document_type",
+            "kind": {
+              "Enum": [
+                "passport",
+                "drivers_license",
+                "national_id",
+                "selfieresidence_permit",
+                "proof_of_address"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "67aa5d49ece6562c447ff4780b7ca52add7d806cd6fd00b3102a22500e1678d0"
+}
